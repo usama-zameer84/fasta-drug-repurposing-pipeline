@@ -1,54 +1,80 @@
 # FASTA to Drug Repurposing Pipeline
 
-An automated bioinformatics pipeline built with [n8n](https://n8n.io/) that transforms raw FASTA DNA sequences into actionable drug repurposing candidates. 
+An automated bioinformatics pipeline built with [n8n](https://n8n.io/) that takes a raw
+FASTA DNA sequence, identifies the gene it encodes, and returns a styled HTML
+drug-repurposing report with pathway enrichment and known drug-gene interactions.
 
-## Workflow Snapshots
-![n8n Workflow Canvas](assets/workflow-snapshot.png)
+> Live workflow ID: `JBCJJDYQ6whXDduZ` — deployed and running on a self-hosted n8n
+> instance. The `workflow.json` in this repo is an exact export of that running workflow
+> (14 nodes) and is kept in sync with it.
 
-## Architecture
+## What it does
 
-The pipeline leverages several APIs to achieve the results:
-1. **Webhook Trigger**: Receives a `POST` request with the raw FASTA sequence.
-2. **FASTA Parsing & Validation**: Normalizes the string and ensures DNA validity.
-3. **NCBI BLAST**: Submits the sequence to the `refseq_rna` database using the `blastn` program to find sequence homologies.
-4. **Gene Symbol Extraction**: Extracts standard gene symbols from BLAST hits.
-5. **g:Profiler Enrichment**: Finds enriched biological pathways using KEGG, WikiPathways, and Reactome data sources.
-6. **DGIdb Lookups**: Uses the Drug Gene Interaction Database (DGIdb) to find existing drug candidates linked to the discovered genes.
-7. **HTML Report Generation**: Formats all results into an easy-to-read, styled HTML response.
+```
+FASTA input → NCBI BLAST (refseq_rna / blastn) → gene identification
+            → g:Profiler (KEGG / WikiPathways / Reactome enrichment)
+            → DGIdb (drug-gene interactions)
+            → HTML drug-repurposing report
+```
+
+1. **Webhook trigger** — receives a `POST` request whose body contains a FASTA sequence.
+2. **FASTA parsing & validation** — normalises the sequence and validates that it only
+   contains DNA nucleotides.
+3. **NCBI BLAST** — submits the sequence to the `refseq_rna` database using the `blastn`
+   program, then polls until the results are ready.
+4. **Gene symbol extraction** — parses the BLAST hits (and the FASTA header) to recover
+   standard human gene symbols.
+5. **g:Profiler enrichment** — queries [g:Profiler](https://biit.cs.ut.ee/gprofiler/)
+   for enriched pathways across KEGG, WikiPathways and Reactome (FDR-corrected).
+6. **DGIdb drug interactions** — queries [DGIdb 5.0](https://dgidb.org/) for known
+   drug-gene interactions for the identified genes.
+7. **HTML report** — assembles all of the above into a single styled HTML page and
+   returns it as the webhook response (`Content-Type: text/html`).
+
+The response is an **HTML page** (not JSON) — it renders the identified genes, the top
+pathway hits from each source, and a ranked table of drug candidates with interaction
+scores. A real example is in [`examples/sample-drug-report.html`](examples/sample-drug-report.html).
 
 ## Usage
 
-To trigger the pipeline, send a standard HTTP `POST` to the webhook URL. 
+Send a `POST` to the webhook with a `sequence` field containing a FASTA-formatted string:
 
 ```bash
 curl -X POST \
-  YOUR_WEBHOOK_URL \
+  https://n8n.reaperautomate.work/webhook/fasta-analysis \
   -H 'Content-Type: application/json' \
-  -d '{
-    "sequence": ">KRAS\nATGACTGAAT..."
-  }'
+  -d '{"sequence": ">Human_KRAS_mRNA_fragment\nGAGTGTGGTTGTGGGCAGCTGGTGGTGGCCATCAGCTCCACCACTGTGGTGGTGCCCTTGATGGAGAGTTTTGGTGGGTAGCTCTGGGCAAGCATTTGGAGTT"}'
 ```
 
-The response will be a full HTML page detailing:
-- The extracted genes
-- Pathway enrichments (KEGG, WikiPathways, Reactome)
-- Potential drug interaction candidates and their interaction scores.
+The body shape is `{"sequence": ">Header\nATCG..."}` — the `>Header` line is used to help
+gene identification, and the nucleotide lines are validated as DNA before being sent to BLAST.
 
-## Repository Structure
+> **Note on latency:** NCBI BLAST typically takes **1–3 minutes** to complete, so the
+> webhook is long-lived. For live demos it is usually easier to trigger the workflow from
+> the n8n UI and watch the execution rather than holding a `curl` connection open.
 
-- `src/FASTA_Drug_Repurposing_Pipeline.workflow.ts` - The primary n8n-as-code TypeScript definition of the pipeline.
-- `src/nodes/` - Extracted JavaScript logic for individual nodes.
+See [`examples/`](examples/) for a sample input payload and the real HTML report returned
+for a KRAS fragment (identified KRAS, with pathway + drug-interaction data).
+
+## Repository structure
+
+```
+workflow.json                                     # Exact export of the live 14-node n8n workflow (source of truth)
+FASTA_Drug_Repurposing_Pipeline.workflow.ts       # n8n-as-code TypeScript definition
+src/FASTA_Drug_Repurposing_Pipeline.workflow.ts   # Same TypeScript definition under src/
+examples/                                         # Sample input + real HTML output from a successful KRAS run
+assets/                                           # Workflow canvas screenshot
+```
+
+`workflow.json` is the authoritative, runnable definition — import it directly into an n8n
+workspace. The `.ts` file is a readable n8n-as-code view of the same pipeline.
 
 ## Deployment
 
-This project uses [n8n-as-code](https://github.com/homanp/n8n-as-code) (`n8nac`) for infrastructure-as-code workflow deployment. 
+Import `workflow.json` directly into your n8n instance via the UI
+(`… > Import from File`), then activate the workflow and use its webhook URL. Because the
+pipeline calls public APIs (NCBI BLAST, g:Profiler, DGIdb), no credentials are required.
 
-1. Install `n8n-as-code`.
-2. Configure your environment to point to your n8n instance.
-3. Push the workflow to your instance:
+## License
 
-```bash
-npx --yes n8nac push src/FASTA_Drug_Repurposing_Pipeline.workflow.ts
-```
-
-Alternatively, you can import the raw `workflow.json` file directly into your n8n workspace UI.
+[MIT](LICENSE) © 2026 Usama Zameer

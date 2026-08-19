@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Drug Repurposing Report — KRAS</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+           background: #0f1117; color: #e2e8f0; padding: 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    header { background: linear-gradient(135deg, #1a1f2e, #2d3748);
+             border: 1px solid #4a5568; border-radius: 12px;
+             padding: 2rem; margin-bottom: 2rem; }
+    header h1 { font-size: 1.8rem; color: #68d391; margin-bottom: 0.5rem; }
+    .meta { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; }
+    .meta-item { background: #2d3748; padding: 0.5rem 1rem;
+                 border-radius: 8px; font-size: 0.85rem; }
+    .meta-item span { color: #a0aec0; }
+    .gene-tag { display: inline-block; background: #276749; color: #9ae6b4;
+                border-radius: 20px; padding: 0.2rem 0.8rem;
+                font-size: 0.85rem; margin: 0.2rem; font-weight: 600; }
+    section { background: #1a1f2e; border: 1px solid #2d3748;
+              border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    section h2 { font-size: 1.2rem; color: #63b3ed; margin-bottom: 1rem;
+                 padding-bottom: 0.5rem; border-bottom: 1px solid #2d3748; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th { background: #2d3748; color: #a0aec0; text-align: left;
+         padding: 0.6rem 0.8rem; font-weight: 600; text-transform: uppercase;
+         font-size: 0.75rem; letter-spacing: 0.05em; }
+    td { padding: 0.6rem 0.8rem; border-bottom: 1px solid #2d3748; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #2d3748; }
+    .drug-name { color: #f6ad55; font-weight: 600; }
+    .score { color: #68d391; font-family: monospace; }
+    .type { color: #b794f4; font-size: 0.8rem; }
+    .empty { color: #718096; text-align: center; padding: 1.5rem; }
+    .rid { font-family: monospace; color: #fbb6ce; }
+    footer { text-align: center; color: #4a5568; font-size: 0.8rem; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🧬 FASTA → Drug Repurposing Report</h1>
+    <div>
+      <span class="gene-tag">KRAS</span>
+    </div>
+    <div class="meta">
+      <div class="meta-item"><span>BLAST RID: </span><span class="rid">8B12WYGM014</span></div>
+      <div class="meta-item"><span>Genes found: </span>1</div>
+      <div class="meta-item"><span>BLAST hits: </span>0</div>
+      <div class="meta-item"><span>Generated: </span>8/19/2026, 10:24:51 AM</div>
+    </div>
+  </header>
+
+  <section>
+    <h2>📈 KEGG Pathways</h2>
+    
+  <table>
+    <thead><tr><th>#</th><th>Pathway</th><th>p-value</th><th>adj p-value</th><th>Hits</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Non-small cell lung cancer</td>
+        <td>2.67e-2</td>
+        <td>1.95e+0</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Endometrial cancer</td>
+        <td>2.67e-2</td>
+        <td>1.57e+0</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Glioma</td>
+        <td>2.67e-2</td>
+        <td>2.03e+0</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Renal cell carcinoma</td>
+        <td>2.67e-2</td>
+        <td>1.84e+0</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Pancreatic cancer</td>
+        <td>2.67e-2</td>
+        <td>2.06e+0</td>
+        <td>1</td>
+      </tr>
+    </tbody>
+  </table>
+  </section>
+
+  <section>
+    <h2>🗺️ WikiPathways</h2>
+    
+  <table>
+    <thead><tr><th>#</th><th>Pathway</th><th>p-value</th><th>adj p-value</th><th>Hits</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Nanoparticle mediated activation of receptor signaling</td>
+        <td>1.34e-2</td>
+        <td>3.75e-1</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Aryl hydrocarbon receptor response to main mediators PAH and TCDD</td>
+        <td>1.34e-2</td>
+        <td>6.16e-1</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>IL5 signaling</td>
+        <td>1.34e-2</td>
+        <td>4.96e-1</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>RalA downstream regulated genes</td>
+        <td>1.34e-2</td>
+        <td>1.61e-1</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Pilocytic astrocytoma</td>
+        <td>1.34e-2</td>
+        <td>1.21e-1</td>
+        <td>1</td>
+      </tr>
+    </tbody>
+  </table>
+  </section>
+
+  <section>
+    <h2>🔬 Reactome</h2>
+    
+  <table>
+    <thead><tr><th>#</th><th>Pathway</th><th>p-value</th><th>adj p-value</th><th>Hits</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Signaling by RAS GAP mutants</td>
+        <td>2.26e-3</td>
+        <td>6.78e-3</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>RAS GTPase cycle mutants</td>
+        <td>2.26e-3</td>
+        <td>6.78e-3</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Signaling by RAS GTPase mutants</td>
+        <td>2.26e-3</td>
+        <td>6.78e-3</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>RUNX3 regulates p14-ARF</td>
+        <td>5.09e-3</td>
+        <td>4.58e-2</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>RAS processing</td>
+        <td>9.25e-3</td>
+        <td>2.22e-1</td>
+        <td>1</td>
+      </tr>
+    </tbody>
+  </table>
+  </section>
+
+  <section>
+    <h2>💊 Drug Interactions (DGIdb 5.0)</h2>
+    <table>
+      <thead><tr><th>#</th><th>Drug</th><th>Gene</th><th>Score</th><th>Interaction Type</th></tr></thead>
+      <tbody>
+        
+          <tr>
+            <td>1</td>
+            <td class="drug-name">ADAGRASIB</td>
+            <td>KRAS</td>
+            <td class="score">2.17</td>
+            <td class="type">inhibitor</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td class="drug-name">ARS-1620</td>
+            <td>KRAS</td>
+            <td class="score">1.74</td>
+            <td class="type">inhibitor</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td class="drug-name">SOTORASIB</td>
+            <td>KRAS</td>
+            <td class="score">1.45</td>
+            <td class="type">N/A</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td class="drug-name">PANITUMUMAB</td>
+            <td>KRAS</td>
+            <td class="score">0.96</td>
+            <td class="type">N/A</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td class="drug-name">MUC1-TARGETED PEPTIDE GO-203-2C</td>
+            <td>KRAS</td>
+            <td class="score">0.87</td>
+            <td class="type">N/A</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td class="drug-name">KRAS G12D INHIBITOR HRS-4642</td>
+            <td>KRAS</td>
+            <td class="score">0.87</td>
+            <td class="type">N/A</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td class="drug-name">DIVARASIB</td>
+            <td>KRAS</td>
+            <td class="score">0.87</td>
+            <td class="type">N/A</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td class="drug-name">MEK INHIBITOR GDC-0623</td>
+            <td>KRAS</td>
+            <td class="score">0.87</td>
+            <td class="type">N/A</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td class="drug-name">SETIDEGRASIB</td>
+            <td>KRAS</td>
+            <td class="score">0.87</td>
+            <td class="type">N/A</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td class="drug-name">AVUTOMETINIB AND DEFACTINIB</td>
+            <td>KRAS</td>
+            <td class="score">0.87</td>
+            <td class="type">N/A</td>
+          </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>Generated by FASTA → Drug Repurposing Pipeline · n8n · 2026</footer>
+</div>
+</body>
+</html>
